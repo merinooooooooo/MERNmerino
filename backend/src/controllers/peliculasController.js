@@ -1,4 +1,4 @@
-import peliculas from "../models/peliculas.js";
+import peliculasModel from "../models/peliculas.js";
 import { v2 as cloudinary } from "cloudinary";
 
 import { config } from "../config.js";
@@ -13,7 +13,7 @@ const PeliculasController = {};
 
 //Select
 PeliculasController.getAllPeliculas = async (req,res) => {
-    const peliculas = await peliculas.find();
+    const peliculas = await peliculasModel.find();
     res.json(peliculas);
 };
 
@@ -31,7 +31,7 @@ PeliculasController.createPeliculas = async( req, res) => {
             imageUrl = result.secure_url;
         }
 
-        const Peliculas = new peliculas({titulo, descripcion, director, genero, anio, duracion, imagen: imageUrl});
+        const Peliculas = new peliculasModel({titulo, descripcion, director, genero, anio, duracion, imagen: imageUrl});
         Peliculas.save();
            
         res.json({message: "Imagen subida"});
@@ -55,7 +55,7 @@ PeliculasController.uploadPeliculas = async( req, res) => {
             imageUrl = result.secure_url;
         }
 
-        await peliculas.findByIdAndUpdate(req.params.id,
+        await peliculasModel.findByIdAndUpdate(req.params.id,
             {
                 titulo, descripcion, director, genero, anio, duracion, imagen: imageUrl  
             }, {new: true}
